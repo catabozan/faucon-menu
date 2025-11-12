@@ -1,0 +1,399 @@
+---
+import '@/styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Faucon - Carte de Boissons</title>
+    <meta name="description" content="Menu des boissons" />
+  </head>
+  <body class="bg-gray-950 text-gray-100 min-h-screen">
+    <!-- Loading State -->
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-100 mb-4"></div>
+        <p class="text-gray-400">Chargement du menu...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="hidden flex items-center justify-center min-h-screen px-4">
+      <div class="text-center max-w-md">
+        <p class="text-red-400 text-lg mb-4">Erreur de chargement du menu</p>
+        <button
+          id="retry-btn"
+          class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+        >
+          Réessayer
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="hidden">
+      <!-- Sticky Header with Navigation -->
+      <header id="header" class="sticky top-0 z-50 bg-gray-950/95 backdrop-blur-sm border-b border-gray-800">
+        <div class="px-4 py-4">
+          <h1 class="text-2xl font-bold text-center mb-4">Carte de Boissons</h1>
+
+          <!-- Category Navigation Pills -->
+          <nav id="category-nav" class="overflow-x-auto pb-2 scrollbar-hide">
+            <div id="category-pills" class="flex gap-2 min-w-max px-1"></div>
+          </nav>
+
+          <!-- Subcategory Navigation Pills (shown based on scroll) -->
+          <nav id="subcategory-nav" class="hidden overflow-x-auto pt-2 border-t border-gray-800 mt-2 scrollbar-hide">
+            <div id="subcategory-pills" class="flex gap-2 min-w-max px-1"></div>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Menu Content -->
+      <main id="menu-content" class="px-4 py-6 max-w-4xl mx-auto">
+        <!-- Menu items will be rendered here dynamically -->
+      </main>
+    </div>
+
+    <script>
+      import type { MenuCategory, MenuSubcategory, MenuItemGroup, MenuItem } from '../utils/types';
+      import { parseCSV } from '../utils/csvParser';
+      import { transformMenuData } from '../utils/menuTransformer';
+      import { formatPrice } from '../utils/priceFormatter';
+
+      // Configuration
+      const config = {
+        csvUrl: import.meta.env.CSV_URL,
+        currencySymbol: import.meta.env.CURRENCY_SYMBOL,
+        currencyPosition: import.meta.env.CURRENCY_POSITION as 'before' | 'after',
+      };
+
+      // State
+      let menuData: MenuCategory[] = [];
+      let currentCategoryIndex = 0;
+
+      // DOM Elements
+      const loadingEl = document.getElementById('loading')!;
+      const errorEl = document.getElementById('error')!;
+      const contentEl = document.getElementById('content')!;
+      const retryBtn = document.getElementById('retry-btn')!;
+      const menuContentEl = document.getElementById('menu-content')!;
+      const categoryPillsEl = document.getElementById('category-pills')!;
+      const subcategoryPillsEl = document.getElementById('subcategory-pills')!;
+      const subcategoryNavEl = document.getElementById('subcategory-nav')!;
+
+      // Fetch and load menu data
+      async function loadMenu() {
+        try {
+          showLoading();
+          const response = await fetch(config.csvUrl);
+          if (!response.ok) throw new Error('Failed to fetch CSV');
+
+          const csvText = await response.text();
+          const rows = parseCSV(csvText);
+          menuData = transformMenuData(rows);
+
+          renderMenu();
+          renderCategoryNavigation();
+          setupScrollSpy();
+          showContent();
+        } catch (error) {
+          console.error('Error loading menu:', error);
+          showError();
+        }
+      }
+
+      // Show/hide states
+      function showLoading() {
+        loadingEl.classList.remove('hidden');
+        errorEl.classList.add('hidden');
+        contentEl.classList.add('hidden');
+      }
+
+      function showError() {
+        loadingEl.classList.add('hidden');
+        errorEl.classList.remove('hidden');
+        contentEl.classList.add('hidden');
+      }
+
+      function showContent() {
+        loadingEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+      }
+
+      // Render menu content
+      function renderMenu() {
+        menuContentEl.innerHTML = '';
+
+        menuData.forEach((category, catIndex) => {
+          const categorySection = document.createElement('section');
+          categorySection.id = `category-${catIndex}`;
+          categorySection.className = 'mb-12';
+
+          // Category heading
+          const categoryHeading = document.createElement('h2');
+          categoryHeading.className = 'text-3xl font-bold mb-6 text-gray-100';
+          categoryHeading.textContent = category.name;
+          categorySection.appendChild(categoryHeading);
+
+          // Subcategories
+          category.subcategories.forEach((subcategory, subIndex) => {
+            const subcategorySection = document.createElement('div');
+            subcategorySection.id = `subcategory-${catIndex}-${subIndex}`;
+            subcategorySection.className = 'mb-8';
+
+            // Subcategory heading (if it has a name)
+            if (subcategory.name) {
+              const subcategoryHeading = document.createElement('h3');
+              subcategoryHeading.className = 'text-xl font-semibold mb-4 text-gray-300';
+              subcategoryHeading.textContent = subcategory.name;
+              subcategorySection.appendChild(subcategoryHeading);
+            }
+
+            // Menu items
+            subcategory.items.forEach(itemGroup => {
+              const itemEl = renderMenuItemGroup(itemGroup);
+              subcategorySection.appendChild(itemEl);
+            });
+
+            categorySection.appendChild(subcategorySection);
+          });
+
+          menuContentEl.appendChild(categorySection);
+        });
+      }
+
+      // Render a menu item group
+      function renderMenuItemGroup(itemGroup: MenuItemGroup): HTMLElement {
+        const container = document.createElement('div');
+        container.className = 'mb-6';
+
+        if (itemGroup.items.length === 1) {
+          // Single item - render on one line
+          const item = itemGroup.items[0];
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'flex justify-between items-baseline gap-4 py-2';
+
+          const leftDiv = document.createElement('div');
+          leftDiv.className = 'flex-1';
+
+          const nameAndQuantity = document.createElement('div');
+          nameAndQuantity.className = 'flex items-baseline gap-2';
+
+          const name = document.createElement('span');
+          name.className = 'text-lg font-medium text-gray-200';
+          name.textContent = item.name;
+          nameAndQuantity.appendChild(name);
+
+          if (item.quantity) {
+            const quantity = document.createElement('span');
+            quantity.className = 'text-gray-400';
+            quantity.textContent = item.quantity;
+            nameAndQuantity.appendChild(quantity);
+          }
+
+          leftDiv.appendChild(nameAndQuantity);
+
+          if (item.comment) {
+            const comment = document.createElement('p');
+            comment.className = 'text-sm text-gray-400 mt-1';
+            comment.textContent = item.comment;
+            leftDiv.appendChild(comment);
+          }
+
+          const price = document.createElement('span');
+          price.className = 'text-lg font-semibold text-gray-100 whitespace-nowrap';
+          price.textContent = formatPrice(item.price, config.currencySymbol, config.currencyPosition);
+
+          itemDiv.appendChild(leftDiv);
+          itemDiv.appendChild(price);
+          container.appendChild(itemDiv);
+        } else {
+          // Multiple items - render as table
+          const nameDiv = document.createElement('div');
+          nameDiv.className = 'text-lg font-medium text-gray-200 mb-2';
+          nameDiv.textContent = itemGroup.name;
+          container.appendChild(nameDiv);
+
+          const table = document.createElement('div');
+          table.className = 'space-y-2 ml-4';
+
+          itemGroup.items.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'flex justify-between items-baseline gap-4 py-1';
+
+            const leftDiv = document.createElement('div');
+            leftDiv.className = 'flex-1';
+
+            if (item.quantity) {
+              const quantity = document.createElement('span');
+              quantity.className = 'text-gray-400';
+              quantity.textContent = item.quantity;
+              leftDiv.appendChild(quantity);
+            }
+
+            if (item.comment) {
+              const comment = document.createElement('span');
+              comment.className = 'text-sm text-gray-400 ml-2';
+              comment.textContent = item.comment;
+              leftDiv.appendChild(comment);
+            }
+
+            const price = document.createElement('span');
+            price.className = 'text-gray-100 font-medium whitespace-nowrap';
+            price.textContent = formatPrice(item.price, config.currencySymbol, config.currencyPosition);
+
+            row.appendChild(leftDiv);
+            row.appendChild(price);
+            table.appendChild(row);
+          });
+
+          container.appendChild(table);
+        }
+
+        return container;
+      }
+
+      // Render category navigation
+      function renderCategoryNavigation() {
+        categoryPillsEl.innerHTML = '';
+
+        menuData.forEach((category, index) => {
+          const pill = document.createElement('button');
+          pill.className = 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors';
+          pill.textContent = category.name;
+          pill.dataset.categoryIndex = index.toString();
+
+          updatePillStyle(pill, index === currentCategoryIndex);
+
+          pill.addEventListener('click', () => {
+            scrollToCategory(index);
+          });
+
+          categoryPillsEl.appendChild(pill);
+        });
+      }
+
+      // Render subcategory navigation for current category
+      function renderSubcategoryNavigation(categoryIndex: number) {
+        subcategoryPillsEl.innerHTML = '';
+        const category = menuData[categoryIndex];
+
+        if (!category.subcategories.some(sub => sub.name)) {
+          subcategoryNavEl.classList.add('hidden');
+          return;
+        }
+
+        subcategoryNavEl.classList.remove('hidden');
+
+        category.subcategories.forEach((subcategory, subIndex) => {
+          if (!subcategory.name) return;
+
+          const pill = document.createElement('button');
+          pill.className = 'px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700';
+          pill.textContent = subcategory.name;
+
+          pill.addEventListener('click', () => {
+            scrollToSubcategory(categoryIndex, subIndex);
+          });
+
+          subcategoryPillsEl.appendChild(pill);
+        });
+      }
+
+      // Update pill style
+      function updatePillStyle(pill: HTMLElement, isActive: boolean) {
+        if (isActive) {
+          pill.className = 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-100 text-gray-950';
+        } else {
+          pill.className = 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700';
+        }
+      }
+
+      // Scroll to category
+      function scrollToCategory(index: number) {
+        const categoryEl = document.getElementById(`category-${index}`);
+        if (categoryEl) {
+          const headerHeight = document.getElementById('header')!.offsetHeight;
+          const targetPosition = categoryEl.offsetTop - headerHeight - 16;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      }
+
+      // Scroll to subcategory
+      function scrollToSubcategory(categoryIndex: number, subcategoryIndex: number) {
+        const subcategoryEl = document.getElementById(`subcategory-${categoryIndex}-${subcategoryIndex}`);
+        if (subcategoryEl) {
+          const headerHeight = document.getElementById('header')!.offsetHeight;
+          const targetPosition = subcategoryEl.offsetTop - headerHeight - 16;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      }
+
+      // Setup scroll spy
+      function setupScrollSpy() {
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              updateActiveCategory();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        });
+      }
+
+      // Update active category based on scroll position
+      function updateActiveCategory() {
+        const headerHeight = document.getElementById('header')!.offsetHeight;
+        const scrollPosition = window.scrollY + headerHeight + 32;
+
+        let newCategoryIndex = 0;
+
+        for (let i = menuData.length - 1; i >= 0; i--) {
+          const categoryEl = document.getElementById(`category-${i}`);
+          if (categoryEl && categoryEl.offsetTop <= scrollPosition) {
+            newCategoryIndex = i;
+            break;
+          }
+        }
+
+        if (newCategoryIndex !== currentCategoryIndex) {
+          currentCategoryIndex = newCategoryIndex;
+
+          // Update category pills
+          const pills = categoryPillsEl.querySelectorAll('button');
+          pills.forEach((pill, index) => {
+            updatePillStyle(pill as HTMLElement, index === currentCategoryIndex);
+          });
+
+          // Update subcategory navigation
+          renderSubcategoryNavigation(currentCategoryIndex);
+        }
+      }
+
+      // Retry button handler
+      retryBtn.addEventListener('click', loadMenu);
+
+      // Initialize
+      loadMenu();
+    </script>
+
+    <style>
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </body>
+</html>

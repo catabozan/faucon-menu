@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* System sans-serif font stack for Android and iOS devices */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom dark theme colors are handled by Tailwind classes in the HTML */
