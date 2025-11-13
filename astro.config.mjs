@@ -8,7 +8,7 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRL3JRMT-XAoK
 const CURRENCY_SYMBOL = 'CHF';
 const CURRENCY_POSITION = 'after'; // 'before' or 'after'
 const SHOW_DOTS = 'false';
-const SHOW_BIG_MENU = 'true'; // Show big category menu at top of page
+const SHOW_BIG_MENU = 'false'; // Show big category menu at top of page
 
 // https://astro.build/config
 export default defineConfig({
