@@ -9,6 +9,7 @@ const config = {
   currencyPosition: import.meta.env.CURRENCY_POSITION as 'before' | 'after',
   showDots: import.meta.env.SHOW_DOTS === 'true',
   showBigMenu: import.meta.env.SHOW_BIG_MENU === 'true',
+  headerTitle: import.meta.env.HEADER_TITLE,
 };
 ---
 
@@ -19,8 +20,8 @@ const config = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>Faucon - Carte de Boissons</title>
-    <meta name="description" content="Menu des boissons" />
+    <title>{config.headerTitle} - Carte de Boissons</title>
+    <meta name="description" content="Carte des boissons" />
   </head>
   <body class="bg-gray-950 text-gray-100 min-h-screen">
     <App
@@ -30,6 +31,7 @@ const config = {
       currencyPosition={config.currencyPosition}
       showDots={config.showDots}
       showBigMenu={config.showBigMenu}
+      headerTitle={config.headerTitle}
     />
   </body>
 </html>

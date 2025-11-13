@@ -9,6 +9,7 @@ const CURRENCY_SYMBOL = 'CHF';
 const CURRENCY_POSITION = 'after'; // 'before' or 'after'
 const SHOW_DOTS = 'true';
 const SHOW_BIG_MENU = 'true'; // Show big category menu at top of page
+const HEADER_TITLE = "L'Espace Faucon"
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
             'import.meta.env.CURRENCY_POSITION': JSON.stringify(process.env.CURRENCY_POSITION ||CURRENCY_POSITION || 'after'),
             'import.meta.env.SHOW_DOTS': JSON.stringify((process.env.SHOW_DOTS || SHOW_DOTS) === 'false' ? 'false' : 'true'),
             'import.meta.env.SHOW_BIG_MENU': JSON.stringify((process.env.SHOW_BIG_MENU || SHOW_BIG_MENU) === 'false' ? 'false' : 'true'),
+            'import.meta.env.HEADER_TITLE': JSON.stringify(process.env.HEADER_TITLE || HEADER_TITLE || 'Carte de Boissons'),
         },
         build: {
             // Minification settings for production builds (esbuild is faster and included by default)

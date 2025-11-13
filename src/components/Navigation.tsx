@@ -8,6 +8,7 @@ interface NavigationProps {
   setCurrentCategoryIndex: (index: number) => void;
   headerRef: RefObject<HTMLElement>;
   bigMenuRef: RefObject<HTMLDivElement> | null;
+  headerTitle: string;
 }
 
 export function Navigation({
@@ -15,7 +16,8 @@ export function Navigation({
   currentCategoryIndex,
   setCurrentCategoryIndex,
   headerRef,
-  bigMenuRef
+  bigMenuRef,
+  headerTitle
 }: NavigationProps) {
   const [isBigMenuVisible, setIsBigMenuVisible] = useState(true);
 
@@ -115,7 +117,7 @@ export function Navigation({
       class="sticky top-0 z-50 bg-gray-950/95 backdrop-blur-sm border-b border-gray-800"
     >
       <div class="px-4 py-4">
-        <h1 class="text-2xl font-bold text-center mb-4">Carte de Boissons</h1>
+        <h1 class="text-2xl font-bold text-center mb-4">{headerTitle}</h1>
 
         {/* Category Navigation Pills - Only show when big menu is not visible */}
         {showCategoryPills && (

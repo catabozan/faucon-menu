@@ -12,9 +12,10 @@ interface AppProps {
   currencyPosition: 'before' | 'after';
   showDots: boolean;
   showBigMenu: boolean;
+  headerTitle: string;
 }
 
-export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBigMenu }: AppProps) {
+export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBigMenu, headerTitle }: AppProps) {
   const [menuData, setMenuData] = useState<MenuCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -83,6 +84,7 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBi
         setCurrentCategoryIndex={setCurrentCategoryIndex}
         headerRef={headerRef}
         bigMenuRef={showBigMenu ? bigMenuRef : null}
+        headerTitle={headerTitle}
       />
       {showBigMenu && (
         <BigCategoryMenu
