@@ -7,7 +7,8 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRL3JRMT-XAoK
 
 const CURRENCY_SYMBOL = 'CHF';
 const CURRENCY_POSITION = 'after'; // 'before' or 'after'
-const SHOW_DOTS = true;
+const SHOW_DOTS = 'false';
+const SHOW_BIG_MENU = 'true'; // Show big category menu at top of page
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,6 +22,7 @@ export default defineConfig({
             'import.meta.env.CURRENCY_SYMBOL': JSON.stringify(process.env.CURRENCY_SYMBOL || CURRENCY_SYMBOL || 'CHF'),
             'import.meta.env.CURRENCY_POSITION': JSON.stringify(process.env.CURRENCY_POSITION ||CURRENCY_POSITION || 'after'),
             'import.meta.env.SHOW_DOTS': JSON.stringify((process.env.SHOW_DOTS || SHOW_DOTS) === 'false' ? 'false' : 'true'),
+            'import.meta.env.SHOW_BIG_MENU': JSON.stringify((process.env.SHOW_BIG_MENU || SHOW_BIG_MENU) === 'false' ? 'false' : 'true'),
         },
     },
 });

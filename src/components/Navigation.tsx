@@ -1,13 +1,23 @@
-import { useEffect, useState, useRef } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import type { MenuCategory } from '@/utils/types';
+import type { RefObject } from 'preact';
 
 interface NavigationProps {
   menuData: MenuCategory[];
+  currentCategoryIndex: number;
+  setCurrentCategoryIndex: (index: number) => void;
+  headerRef: RefObject<HTMLElement>;
+  bigMenuRef: RefObject<HTMLDivElement> | null;
 }
 
-export function Navigation({ menuData }: NavigationProps) {
-  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
-  const headerRef = useRef<HTMLElement>(null);
+export function Navigation({
+  menuData,
+  currentCategoryIndex,
+  setCurrentCategoryIndex,
+  headerRef,
+  bigMenuRef
+}: NavigationProps) {
+  const [isBigMenuVisible, setIsBigMenuVisible] = useState(true);
 
   // Scroll to category
   const scrollToCategory = (index: number) => {
@@ -28,6 +38,31 @@ export function Navigation({ menuData }: NavigationProps) {
       window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     }
   };
+
+  // Setup Intersection Observer for big menu visibility
+  useEffect(() => {
+    if (!bigMenuRef || !bigMenuRef.current) {
+      setIsBigMenuVisible(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsBigMenuVisible(entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(bigMenuRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [bigMenuRef]);
 
   // Setup scroll spy
   useEffect(() => {
@@ -66,10 +101,12 @@ export function Navigation({ menuData }: NavigationProps) {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuData, currentCategoryIndex]);
+  }, [menuData, currentCategoryIndex, setCurrentCategoryIndex, headerRef]);
 
   const currentCategory = menuData[currentCategoryIndex];
   const hasSubcategories = currentCategory?.subcategories.some(sub => sub.name);
+
+  const showCategoryPills = !bigMenuRef || !isBigMenuVisible;
 
   return (
     <header
@@ -80,28 +117,30 @@ export function Navigation({ menuData }: NavigationProps) {
       <div class="px-4 py-4">
         <h1 class="text-2xl font-bold text-center mb-4">Carte de Boissons</h1>
 
-        {/* Category Navigation Pills */}
-        <nav class="overflow-x-auto pb-2 scrollbar-hide">
-          <div class="flex gap-2 min-w-max px-1">
-            {menuData.map((category, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToCategory(index)}
-                class={
-                  index === currentCategoryIndex
-                    ? 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-100 text-gray-950'
-                    : 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </nav>
+        {/* Category Navigation Pills - Only show when big menu is not visible */}
+        {showCategoryPills && (
+          <nav class="overflow-x-auto pb-2 scrollbar-hide">
+            <div class="flex gap-2 min-w-max px-1">
+              {menuData.map((category, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollToCategory(index)}
+                  class={
+                    index === currentCategoryIndex
+                      ? 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-100 text-gray-950'
+                      : 'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
 
         {/* Subcategory Navigation Pills */}
         {hasSubcategories && (
-          <nav class="overflow-x-auto pt-2 border-t border-gray-800 mt-2 scrollbar-hide">
+          <nav class={`overflow-x-auto scrollbar-hide ${showCategoryPills ? 'pt-2 border-t border-gray-800 mt-2' : ''}`}>
             <div class="flex gap-2 min-w-max px-1">
               {currentCategory.subcategories.map((subcategory, subIndex) =>
                 subcategory.name ? (

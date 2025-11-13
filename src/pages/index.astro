@@ -8,6 +8,7 @@ const config = {
   currencySymbol: import.meta.env.CURRENCY_SYMBOL,
   currencyPosition: import.meta.env.CURRENCY_POSITION as 'before' | 'after',
   showDots: import.meta.env.SHOW_DOTS === 'true',
+  showBigMenu: import.meta.env.SHOW_BIG_MENU === 'true',
 };
 ---
 
@@ -28,6 +29,7 @@ const config = {
       currencySymbol={config.currencySymbol}
       currencyPosition={config.currencyPosition}
       showDots={config.showDots}
+      showBigMenu={config.showBigMenu}
     />
   </body>
 </html>

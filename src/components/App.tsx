@@ -1,21 +1,27 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useState, useEffect, useRef } from 'preact/hooks';
 import type { MenuCategory } from '@/utils/types';
 import { parseCSV } from '@/utils/csvParser';
 import { transformMenuData } from '@/utils/menuTransformer';
 import { Navigation } from './Navigation';
 import { MenuContent } from './MenuContent';
+import { BigCategoryMenu } from './BigCategoryMenu';
 
 interface AppProps {
   csvUrl: string;
   currencySymbol: string;
   currencyPosition: 'before' | 'after';
   showDots: boolean;
+  showBigMenu: boolean;
 }
 
-export function App({ csvUrl, currencySymbol, currencyPosition, showDots }: AppProps) {
+export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBigMenu }: AppProps) {
   const [menuData, setMenuData] = useState<MenuCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
+
+  const bigMenuRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   const loadMenu = async () => {
     try {
@@ -71,7 +77,21 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots }: AppP
 
   return (
     <>
-      <Navigation menuData={menuData} />
+      <Navigation
+        menuData={menuData}
+        currentCategoryIndex={currentCategoryIndex}
+        setCurrentCategoryIndex={setCurrentCategoryIndex}
+        headerRef={headerRef}
+        bigMenuRef={showBigMenu ? bigMenuRef : null}
+      />
+      {showBigMenu && (
+        <BigCategoryMenu
+          ref={bigMenuRef}
+          menuData={menuData}
+          onCategoryClick={setCurrentCategoryIndex}
+          headerRef={headerRef}
+        />
+      )}
       <MenuContent
         menuData={menuData}
         currencySymbol={currencySymbol}
