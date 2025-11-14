@@ -41,7 +41,7 @@ export function MenuItem({ item, currencySymbol, currencyPosition, showName = fa
           <span class="text-gray-400 whitespace-nowrap flex-shrink-0">{item.quantity}</span>
         )}
         <span class={`flex-grow mx-2 mb-1 min-w-4 ${showDots ? 'border-b border-dotted border-gray-700' : ''}`} />
-        <span class="text-gray-100 font-medium whitespace-nowrap flex-shrink-0">{price}</span>
+        <span class="text-accent font-medium whitespace-nowrap flex-shrink-0">{price}</span>
       </div>
       {item.comment && (
         <p class="text-sm text-gray-400 mt-1 break-words">{item.comment}</p>
