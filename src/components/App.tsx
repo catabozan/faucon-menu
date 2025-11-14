@@ -54,7 +54,7 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBi
       <div class="flex items-center justify-center min-h-screen">
         <div class="text-center">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-100 mb-4"></div>
-          <p class="text-gray-400">Chargement du menu...</p>
+          <p class="text-gray-400">Chargement de la carte...</p>
         </div>
       </div>
     );
@@ -64,7 +64,7 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBi
     return (
       <div class="flex items-center justify-center min-h-screen px-4">
         <div class="text-center max-w-md">
-          <p class="text-red-400 text-lg mb-4">Erreur de chargement du menu</p>
+          <p class="text-red-400 text-lg mb-4">Erreur de chargement de la carte</p>
           <button
             onClick={loadMenu}
             class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"

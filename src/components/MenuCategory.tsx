@@ -18,7 +18,7 @@ export function MenuCategory({
 }: MenuCategoryProps) {
   return (
     <section id={`category-${categoryIndex}`} class="mb-12">
-      <h2 class="text-3xl font-bold mb-6 text-gray-100">{category.name}</h2>
+      <h2 class="text-3xl font-bold mb-6 text-accent">{category.name}</h2>
       {category.subcategories.map((subcategory, subIndex) => (
         <MenuSubcategory
           key={subIndex}

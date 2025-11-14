@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from 'astro/config';
 import preact from '@astrojs/preact';
 
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRL3JRMT-XAoKJEfjQRPqggT5eBCcVDTPUnfKUf-isNptRMCtpj4EAEAEAoldVFIc1DRNyuDcV0sGw8/pub?output=csv';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRL3JRMT-XAoKJEfjQRPqggT5eBCcVDTPUnfKUf-isNptRMCtpj4EAEAEAoldVFIc1DRNyuDcV0sGw8/pub?gid=1696997390&single=true&output=csv';
 
 const CURRENCY_SYMBOL = 'CHF';
 const CURRENCY_POSITION = 'after'; // 'before' or 'after'
