@@ -119,7 +119,7 @@ export function Navigation({
       <div class="px-6 py-1">
         <div className="flex flex-row justify-between items-center">
           <h1 class="text-2xl font-bold text-left pl-2">{headerTitle}</h1>
-          <img src="/logo.png" alt="logo" class="w-20" />
+          <img src="./logo.png" alt="logo" class="w-20" />
         </div>
 
         {/* Category Navigation Pills - Only show when big menu is not visible */}

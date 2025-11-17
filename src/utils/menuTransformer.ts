@@ -88,3 +88,4 @@ function groupMenuItems(items: MenuItem[]): MenuItemGroup[] {
 
   return groups;
 }
+
