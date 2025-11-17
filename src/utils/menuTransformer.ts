@@ -59,44 +59,31 @@ export function transformMenuData(rows: CSVRow[]): MenuCategory[] {
 }
 
 /**
- * Group menu items by name
- * If any item with the same name has a comment, treat all as separate items
- * Otherwise, group items with the same name into a table
+ * Group menu items by name (trimmed)
+ * Items with the same name are always grouped together in a table
+ * Comments are displayed within the table rows
  */
 function groupMenuItems(items: MenuItem[]): MenuItemGroup[] {
   const nameMap = new Map<string, MenuItem[]>();
 
-  // Group by name
+  // Group by trimmed name
   for (const item of items) {
-    if (!nameMap.has(item.name)) {
-      nameMap.set(item.name, []);
+    const trimmedName = item.name.trim();
+    if (!nameMap.has(trimmedName)) {
+      nameMap.set(trimmedName, []);
     }
-    nameMap.get(item.name)!.push(item);
+    nameMap.get(trimmedName)!.push(item);
   }
 
   const groups: MenuItemGroup[] = [];
 
   for (const [name, itemList] of nameMap) {
-    // Check if any item has a comment
-    const hasComments = itemList.some(item => item.comment);
-
-    if (hasComments) {
-      // Treat each as a separate item
-      for (const item of itemList) {
-        groups.push({
-          name,
-          items: [item],
-          hasComments: true,
-        });
-      }
-    } else {
-      // Group together
-      groups.push({
-        name,
-        items: itemList,
-        hasComments: false,
-      });
-    }
+    // Always group items with the same name together
+    groups.push({
+      name,
+      items: itemList,
+      hasComments: false,
+    });
   }
 
   return groups;
