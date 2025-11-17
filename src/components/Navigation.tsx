@@ -116,8 +116,11 @@ export function Navigation({
       id="header"
       class="sticky top-0 z-50 bg-gray-950/95 backdrop-blur-sm border-b border-gray-800"
     >
-      <div class="px-4 py-4">
-        <h1 class="text-2xl font-bold text-center mb-4">{headerTitle}</h1>
+      <div class="px-6 py-1">
+        <div className="flex flex-row justify-between items-center">
+          <h1 class="text-2xl font-bold text-left pl-2">{headerTitle}</h1>
+          <img src="/logo.png" alt="logo" class="w-20" />
+        </div>
 
         {/* Category Navigation Pills - Only show when big menu is not visible */}
         {showCategoryPills && (
