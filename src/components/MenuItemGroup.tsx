@@ -27,7 +27,7 @@ export function MenuItemGroup({ itemGroup, currencySymbol, currencyPosition, sho
   // Multiple items - show as table with name header
   return (
     <div class="mb-1">
-      <div class="text-lg font-medium text-gray-200 mb-2">{itemGroup.name}</div>
+      <div class="text-lg font-medium text-gray-200 mb-1 mt-3">{itemGroup.name}</div>
       <div class="space-y-2 ml-4">
         {itemGroup.items.map((item, index) => (
           <MenuItem

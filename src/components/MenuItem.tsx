@@ -38,7 +38,7 @@ export function MenuItem({ item, currencySymbol, currencyPosition, showName = fa
 
   // Row in a grouped table (no name shown)
   return (
-    <div class="py-1">
+    <div class="pb-1">
       <div class="flex items-baseline gap-2">
         {item.quantity && (
           <span class="text-gray-400 whitespace-nowrap flex-shrink-0">{item.quantity}</span>

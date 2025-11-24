@@ -22,6 +22,7 @@ html {
 @theme {
 
   --color-accent: #d2bc3d;
+  --color-primary: #70A1F1;
   /* default colors */
   --color-red-50: oklch(0.971 0.013 17.38);
   --color-red-100: oklch(0.936 0.032 17.717);
