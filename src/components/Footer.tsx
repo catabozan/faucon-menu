@@ -49,7 +49,7 @@ export function Footer() {
         {/* Print Menu Link */}
         <div class="pt-6 border-t border-gray-800 text-center">
           <a
-            href="/print"
+            href="print"
             class="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-100 hover:text-white rounded-lg transition-colors font-medium"
           >
             <svg
