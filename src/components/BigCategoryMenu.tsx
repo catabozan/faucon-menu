@@ -22,14 +22,16 @@ export const BigCategoryMenu = forwardRef<HTMLDivElement, BigCategoryMenuProps>(
     return (
       <div ref={ref} class="bg-gray-950 border-b border-gray-800">
         <div class="px-4 py-6">
-          <div class="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
+          <h2 class="text-xl text-center font-bold mb-6">Catégories</h2>
+          <div class="grid grid-cols-1 gap-3 max-w-4xl mx-auto">
             {menuData.map((category, index) => (
               <button
                 key={index}
                 onClick={() => scrollToCategory(index)}
-                class="px-6 py-3 rounded-lg text-base font-medium transition-colors bg-gray-800 text-gray-100 hover:bg-gray-700 hover:text-white"
+                class="px-6 py-3 rounded-lg text-base font-medium transition-colors bg-gray-800 text-gray-100 hover:bg-gray-700 hover:text-white flex items-center justify-between w-full"
               >
-                {category.name}
+                <span>{category.name}</span>
+                <span class="text-gray-400">›</span>
               </button>
             ))}
           </div>

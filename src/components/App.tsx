@@ -5,6 +5,7 @@ import { transformMenuData } from '@/utils/menuTransformer';
 import { Navigation } from './Navigation';
 import { MenuContent } from './MenuContent';
 import { BigCategoryMenu } from './BigCategoryMenu';
+import { ScrollToTop } from './ScrollToTop';
 
 interface AppProps {
   csvUrl: string;
@@ -100,6 +101,7 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBi
         currencyPosition={currencyPosition}
         showDots={showDots}
       />
+      <ScrollToTop />
     </>
   );
 }
