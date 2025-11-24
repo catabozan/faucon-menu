@@ -6,6 +6,7 @@ import { Navigation } from './Navigation';
 import { MenuContent } from './MenuContent';
 import { BigCategoryMenu } from './BigCategoryMenu';
 import { ScrollToTop } from './ScrollToTop';
+import { Footer } from './Footer';
 
 interface AppProps {
   csvUrl: string;
@@ -101,6 +102,7 @@ export function App({ csvUrl, currencySymbol, currencyPosition, showDots, showBi
         currencyPosition={currencyPosition}
         showDots={showDots}
       />
+      <Footer />
       <ScrollToTop />
     </>
   );
