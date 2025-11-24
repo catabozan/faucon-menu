@@ -17,7 +17,7 @@ export function MenuItem({ item, currencySymbol, currencyPosition, showName = fa
     return (
       <div class="py-2">
         <div>
-          <span class="float-right text-lg font-semibold text-accent whitespace-nowrap ml-2">{price}</span>
+          <span class="float-right text-lg font-semibold text-primary whitespace-nowrap ml-2">{price}</span>
           <div class="overflow-hidden flex items-baseline gap-2 min-w-0">
             <span class="text-lg font-medium text-gray-200">
               {item.name}
@@ -44,7 +44,7 @@ export function MenuItem({ item, currencySymbol, currencyPosition, showName = fa
           <span class="text-gray-400 whitespace-nowrap flex-shrink-0">{item.quantity}</span>
         )}
         <span class={`flex-grow mx-2 mb-1 min-w-4 ${showDots ? 'border-b border-dotted border-gray-700' : ''}`} />
-        <span class="text-accent font-medium whitespace-nowrap flex-shrink-0 font-semibold">{price}</span>
+        <span class="text-primary font-medium whitespace-nowrap flex-shrink-0 font-semibold">{price}</span>
       </div>
       {item.comment && (
         <p class="text-sm text-gray-400 mt-1 break-words italic">{item.comment}</p>

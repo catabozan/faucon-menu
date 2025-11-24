@@ -1,0 +1,316 @@
+/* Print Configuration Variables */
+:root {
+  /* Layout Configuration */
+  --print-columns: 5;
+  --print-column-gap: 10mm;
+  --print-page-padding: 7mm;
+
+  /* Typography */
+  --print-base-font-size: 9pt;
+  --print-title-size: 0rem;
+  --print-category-size: 1.1rem;
+  --print-subcategory-size: 1.0rem;
+  --print-item-size: 0.75rem;
+  --print-price-size: 0.75rem;
+
+  /* Spacing */
+  --print-logo-height: 0px;
+  --print-category-spacing: 0.8rem;
+  --print-subcategory-spacing: 0.5rem;
+  --print-item-spacing: 0.3rem;
+  --print-line-height: 1.0;
+
+  /* Background Logo */
+  --print-bg-logo-opacity: 0.08;
+  --print-bg-logo-size: 600px; /* Width of background logo */
+
+  /* Background Colors */
+  --print-background-color: #030712; /* Main background */
+  --print-text-color: #e5e7eb; /* Main text color */
+}
+
+/* Page Setup for A3 Landscape */
+@page {
+  size: A3 landscape;
+  margin: var(--print-page-padding);
+}
+
+/* Screen Styles (Preview) */
+@media screen {
+  .print-container {
+    max-width: 420mm; /* A3 landscape width */
+    margin: 0 auto;
+    padding: 2rem;
+    background: #0a0a0a;
+    min-height: 100vh;
+  }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #1f2937;
+  }
+
+  .print-logo {
+    height: var(--print-logo-height);
+    width: auto;
+    margin: 0 auto 1rem;
+    display: block;
+  }
+
+  .print-title {
+    font-size: var(--print-title-size);
+    font-weight: bold;
+    color: #f3f4f6;
+    margin: 0;
+  }
+
+  .print-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 2rem;
+    background: #1f2937;
+    color: #f3f4f6;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    z-index: 50;
+  }
+
+  .print-button:hover {
+    background: #374151;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .print-button svg {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+}
+
+/* Print Styles */
+@media print {
+  /* Reset */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: var(--print-base-font-size);
+    line-height: var(--print-line-height);
+    color: var(--print-text-color);
+    background: var(--print-background-color) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Hide print button and other UI elements */
+  .print-button,
+  button:not(.menu-item-button) {
+    display: none !important;
+  }
+
+  /* Container */
+  .print-container {
+    padding: var(--print-page-padding);
+    margin: 0;
+    max-width: 100%;
+    background: var(--print-background-color) !important;
+    position: relative;
+
+    /* KEY: Make padding and background repeat on each page fragment */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+
+    /* Ensure colors print */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Background Logo - Centered on each page */
+  .print-container::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--print-bg-logo-size);
+    height: auto;
+    background-image: url('/logo-full-hi-def.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: var(--print-bg-logo-opacity);
+    z-index: 0;
+    pointer-events: none;
+    /* Ensure logo appears on every page */
+    aspect-ratio: 1;
+  }
+
+  /* Ensure content is above background logo */
+  .print-header,
+  .print-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .print-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .print-logo {
+    height: var(--print-logo-height);
+    width: auto;
+    margin: 0 auto 0.8rem;
+    display: block;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .print-title {
+    font-size: var(--print-title-size);
+    font-weight: bold;
+    color: #f3f4f6;
+    margin: 0;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Multi-column Layout */
+  .print-content {
+    column-count: var(--print-columns);
+    column-gap: var(--print-column-gap);
+    column-fill: auto;
+
+    /* Ensure consistent rendering across page breaks */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Prevent awkward breaks */
+  section,
+  .menu-category {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Category Styles */
+  section h2 {
+    font-size: var(--print-category-size);
+    font-weight: bold;
+    color: #d9c551;
+    margin-bottom: var(--print-category-spacing);
+    margin-top: 0;
+  }
+
+  /* Subcategory Styles */
+  h3 {
+    font-size: var(--print-subcategory-size);
+    font-weight: 600;
+    color: #d1d5db;
+    margin-bottom: var(--print-subcategory-spacing);
+    margin-top: var(--print-category-spacing);
+  }
+
+  /* Menu Items */
+  .menu-item,
+  [class*="MenuItem"] {
+    margin-bottom: var(--print-item-spacing);
+    break-inside: avoid;
+    page-break-inside: avoid;
+    font-size: var(--print-item-size);
+  }
+
+  /* Prices */
+  .price,
+  [class*="price"] {
+    font-size: var(--print-price-size);
+    color: #d9c551;
+    font-weight: 600;
+  }
+
+  /* Reduce spacing for print efficiency */
+  .px-4 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .py-6 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .mb-12 {
+    margin-bottom: var(--print-category-spacing) !important;
+  }
+
+  .mb-8 {
+    margin-bottom: var(--print-subcategory-spacing) !important;
+  }
+
+  .mb-6 {
+    margin-bottom: var(--print-subcategory-spacing) !important;
+  }
+
+  /* Preserve colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Comments */
+  .text-gray-400,
+  [class*="comment"],
+  .italic {
+    font-size: calc(var(--print-item-size) * 0.9);
+    color: #9ca3af;
+  }
+
+  /* Group headers */
+  .text-lg {
+    font-size: calc(var(--print-item-size) * 1.1);
+  }
+}
+
+/* Adjustments for better column flow */
+@media print {
+  /* First category starts at top */
+  section:first-of-type {
+    margin-top: 0;
+  }
+
+  /* Prevent orphaned headers */
+  section {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Keep item groups together */
+  .space-y-2 > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

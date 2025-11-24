@@ -11,7 +11,7 @@ export function formatPrice(price: number, currencySymbol: string, currencyPosit
 
   if (isWholeNumber) {
     // Round number: format as "7.-"
-    formattedPrice = `${price.toFixed(0)}.-`;
+    formattedPrice = `${price.toFixed(0)}.–`;
   } else {
     // Has decimals: format with 2 decimal places
     formattedPrice = price.toFixed(2);
