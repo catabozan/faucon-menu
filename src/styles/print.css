@@ -5,20 +5,36 @@
   --print-column-gap: 10mm;
   --print-page-padding: 7mm;
 
-  /* Typography */
+  /* Typography - Sizes */
   --print-base-font-size: 9pt;
-  --print-title-size: 0rem;
+  --print-title-size: 2rem;
   --print-category-size: 1.1rem;
   --print-subcategory-size: 1.0rem;
   --print-item-size: 0.75rem;
   --print-price-size: 0.75rem;
 
+  /* Typography - Weights */
+  --print-title-weight: 700;
+  --print-category-weight: 700;
+  --print-item-weight: 500;
+  --print-price-weight: 700;
+
   /* Spacing */
   --print-logo-height: 0px;
+  --print-title-margin-bottom: 1.5rem;
   --print-category-spacing: 0.8rem;
   --print-subcategory-spacing: 0.5rem;
   --print-item-spacing: 0.3rem;
+  --print-table-row-spacing: 0.15rem;
   --print-line-height: 1.0;
+
+  /* Colors - Customizable */
+  --print-title-color: #d9c551;
+  --print-category-color: #d9c551;
+  --print-price-color: #d9c551;
+  --print-dotted-line-color: #374151;
+  --print-quantity-color: #9ca3af;
+  --print-item-name-color: #e5e7eb;
 
   /* Background Logo */
   --print-bg-logo-opacity: 0.08;
@@ -47,7 +63,7 @@
 
   .print-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--print-title-margin-bottom);
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #1f2937;
   }
@@ -61,8 +77,8 @@
 
   .print-title {
     font-size: var(--print-title-size);
-    font-weight: bold;
-    color: #f3f4f6;
+    font-weight: var(--print-title-weight);
+    color: var(--print-title-color);
     margin: 0;
   }
 
@@ -171,7 +187,7 @@
   /* Header */
   .print-header {
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--print-title-margin-bottom);
     page-break-after: avoid;
     break-after: avoid;
   }
@@ -186,10 +202,10 @@
   }
 
   .print-title {
-    font-size: var(--print-title-size);
-    font-weight: bold;
-    color: #f3f4f6;
-    margin: 0;
+    font-size: var(--print-title-size) !important;
+    font-weight: var(--print-title-weight) !important;
+    color: var(--print-title-color) !important;
+    margin: 0 !important;
     page-break-after: avoid;
     break-after: avoid;
   }
@@ -217,62 +233,110 @@
     page-break-after: avoid;
   }
 
-  /* Category Styles */
+  /* Category Styles - force settings */
   section h2 {
-    font-size: var(--print-category-size);
-    font-weight: bold;
-    color: #d9c551;
-    margin-bottom: var(--print-category-spacing);
-    margin-top: 0;
+    font-size: var(--print-category-size) !important;
+    font-weight: var(--print-category-weight) !important;
+    color: var(--print-category-color) !important;
+    margin-bottom: var(--print-category-spacing) !important;
+    margin-top: 0 !important;
   }
 
-  /* Subcategory Styles */
+  /* Subcategory Styles - force settings */
   h3 {
-    font-size: var(--print-subcategory-size);
-    font-weight: 600;
-    color: #d1d5db;
-    margin-bottom: var(--print-subcategory-spacing);
-    margin-top: var(--print-category-spacing);
+    font-size: var(--print-subcategory-size) !important;
+    font-weight: 600 !important;
+    color: #d1d5db !important;
+    margin-bottom: var(--print-subcategory-spacing) !important;
+    margin-top: var(--print-category-spacing) !important;
   }
 
-  /* Menu Items */
+  /* Menu Items - force typography settings */
   .menu-item,
-  [class*="MenuItem"] {
-    margin-bottom: var(--print-item-spacing);
+  [class*="MenuItem"],
+  .menu-item *:not(.price):not([class*="price"]) {
+    margin-bottom: var(--print-item-spacing) !important;
     break-inside: avoid;
     page-break-inside: avoid;
-    font-size: var(--print-item-size);
+    font-size: var(--print-item-size) !important;
+    font-weight: var(--print-item-weight) !important;
+    color: var(--print-item-name-color) !important;
   }
 
-  /* Prices */
+  /* Prices - force settings */
   .price,
-  [class*="price"] {
-    font-size: var(--print-price-size);
-    color: #d9c551;
-    font-weight: 600;
+  [class*="price"],
+  .text-primary,
+  span.text-primary,
+  .float-right.text-primary,
+  span.text-lg.text-primary {
+    font-size: var(--print-price-size) !important;
+    color: var(--print-price-color) !important;
+    font-weight: var(--print-price-weight) !important;
   }
 
-  /* Reduce spacing for print efficiency */
-  .px-4 {
+  /* Override all component spacing for print - use CSS variables */
+  .px-4, .px-6, .px-8 {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
-  .py-6 {
+  .py-2, .py-3, .py-4, .py-6 {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
 
-  .mb-12 {
+  .p-4, .p-6 {
+    padding: 0 !important;
+  }
+
+  /* Category spacing */
+  .mb-12, section {
     margin-bottom: var(--print-category-spacing) !important;
   }
 
-  .mb-8 {
+  /* Subcategory spacing */
+  .mb-8, .mb-6, h3 {
     margin-bottom: var(--print-subcategory-spacing) !important;
   }
 
-  .mb-6 {
-    margin-bottom: var(--print-subcategory-spacing) !important;
+  /* Item spacing - ONLY for single items, NOT for space-y containers */
+  .mb-1:not([class*="space-y"] > *),
+  .mb-2:not([class*="space-y"] > *),
+  .mb-3:not([class*="space-y"] > *),
+  .mb-4:not([class*="space-y"] > *) {
+    margin-bottom: var(--print-item-spacing) !important;
+  }
+
+  /* Table row spacing - ONLY for grouped items (inside space-y containers) */
+  .space-y-1 > *,
+  .space-y-2 > *,
+  .space-y-3 > *,
+  .space-y-4 > * {
+    margin-bottom: var(--print-table-row-spacing) !important;
+    margin-top: 0 !important;
+  }
+
+  /* Remove top margins that might interfere */
+  .mt-1, .mt-2, .mt-3, .mt-4, .mt-6, .mt-8 {
+    margin-top: 0 !important;
+  }
+
+  /* Ensure line height applies everywhere */
+  *, p, div, span {
+    line-height: var(--print-line-height) !important;
+  }
+
+  /* Reduce margin on the ml-4 wrapper in grouped items */
+  .ml-4 {
+    margin-left: 0.5rem !important;
+  }
+
+  /* Compact flex rows inside menu items */
+  .flex.items-start,
+  .flex.justify-between {
+    margin-bottom: 0 !important;
+    gap: 0.2rem !important;
   }
 
   /* Preserve colors */
@@ -281,17 +345,25 @@
     print-color-adjust: exact !important;
   }
 
-  /* Comments */
+  /* Comments and Quantities - force settings */
   .text-gray-400,
   [class*="comment"],
+  [class*="quantity"],
   .italic {
-    font-size: calc(var(--print-item-size) * 0.9);
-    color: #9ca3af;
+    font-size: calc(var(--print-item-size) * 0.9) !important;
+    color: var(--print-quantity-color) !important;
   }
 
-  /* Group headers */
+  /* Dotted Lines - force settings */
+  .border-dotted,
+  [class*="dotted"] {
+    border-color: var(--print-dotted-line-color) !important;
+  }
+
+  /* Group headers - force settings */
   .text-lg {
-    font-size: calc(var(--print-item-size) * 1.1);
+    font-size: calc(var(--print-item-size) * 1.1) !important;
+    color: var(--print-item-name-color) !important;
   }
 }
 
