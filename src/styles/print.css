@@ -254,7 +254,7 @@
     font-weight: 600 !important;
     color: var(--print-subcategory-color) !important;
     margin-bottom: var(--print-subcategory-spacing) !important;
-    margin-top: var(--print-category-spacing) !important;
+    margin-top: var(--print-subcategory-spacing) !important;
   }
 
   /* Menu Items - force typography settings */
@@ -296,8 +296,13 @@
     padding: 0 !important;
   }
 
-  /* Category spacing */
-  .mb-12, section {
+  /* Category spacing - between categories */
+  section {
+    margin-top: var(--print-category-spacing) !important;
+    margin-bottom: 0 !important;
+  }
+
+  .mb-12 {
     margin-bottom: var(--print-category-spacing) !important;
   }
 

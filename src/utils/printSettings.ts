@@ -59,8 +59,8 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
     },
     spacing: {
       titleMarginBottom: 1.5,
-      categorySpacing: 1.0,
-      subcategorySpacing: 0.3,
+      categorySpacing: 1.4,
+      subcategorySpacing: 0.4,
       itemSpacing: 0.4,
       tableRowSpacing: 0.0,
     },
