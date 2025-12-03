@@ -28,7 +28,7 @@ export function PrintApp({
   showDots,
 }: PrintAppProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentPreset, setCurrentPreset] = useState<PresetName | null>('classique');
+  const [currentPreset, setCurrentPreset] = useState<PresetName | null>('clair');
   const [settings, setSettings] = useState<PrintSettings>(() => {
     // Try to load from localStorage
     const saved = loadPrintSettings();
@@ -63,6 +63,7 @@ export function PrintApp({
       :root {
         --print-title-color: ${settings.colors.pageTitle};
         --print-category-color: ${settings.colors.categoryTitle};
+        --print-subcategory-color: ${settings.colors.subcategoryTitle};
         --print-price-color: ${settings.colors.prices};
         --print-dotted-line-color: ${settings.colors.dottedLines};
         --print-quantity-color: ${settings.colors.quantityText};

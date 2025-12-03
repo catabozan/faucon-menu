@@ -2,10 +2,32 @@
  * Utility functions for managing print customization settings
  */
 
-import type { PrintSettings, PresetName, PresetTheme } from './printSettingsTypes';
+import type { PrintSettings, PresetName, PresetTheme, DeepPartial } from './printSettingsTypes';
 
 const STORAGE_KEY = 'faucon-print-settings';
 const SETTINGS_VERSION = 1;
+
+/**
+ * Deep merge helper - merges source into target recursively
+ */
+function deepMerge<T>(target: T, source: DeepPartial<T>): T {
+  const result = { ...target };
+
+  for (const key in source) {
+    const sourceValue = source[key];
+    const targetValue = result[key];
+
+    if (sourceValue !== undefined) {
+      if (typeof sourceValue === 'object' && sourceValue !== null && !Array.isArray(sourceValue)) {
+        result[key] = deepMerge(targetValue as any, sourceValue as any);
+      } else {
+        result[key] = sourceValue as any;
+      }
+    }
+  }
+
+  return result;
+}
 
 /**
  * Returns default print settings matching the current CSS defaults
@@ -13,135 +35,90 @@ const SETTINGS_VERSION = 1;
 export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
   return {
     colors: {
-      pageTitle: '#d9c551',
-      categoryTitle: '#d9c551',
-      prices: '#d9c551',
-      dottedLines: '#374151',
-      quantityText: '#9ca3af',
-      itemName: '#e5e7eb',
-      backgroundColor: '#030712',
+      pageTitle: '#173185',
+      categoryTitle: '#173185',
+      subcategoryTitle: '#0E1E4C',
+      prices: '#173185',
+      dottedLines: '#AFBCD0',
+      quantityText: '#465169',
+      itemName: '#030712',
+      backgroundColor: '#ffffff'
     },
     typography: {
-      baseFontSize: 9,
-      titleSize: 1.8,
+      baseFontSize: 13.5,
+      titleSize: 2.7,
       titleWeight: 700,
-      categorySize: 1.1,
+      categorySize: 1.2,
       categoryWeight: 700,
       subcategorySize: 1.0,
       itemSize: 0.75,
-      itemWeight: 500,
+      itemWeight: 600,
       priceSize: 0.75,
       priceWeight: 700,
       lineHeight: 1.0,
     },
     spacing: {
       titleMarginBottom: 1.5,
-      categorySpacing: 0.8,
-      subcategorySpacing: 0.5,
-      itemSpacing: 0.3,
-      tableRowSpacing: 0.15,
+      categorySpacing: 1.0,
+      subcategorySpacing: 0.3,
+      itemSpacing: 0.4,
+      tableRowSpacing: 0.0,
     },
     layout: {
-      columns: 5,
+      columns: 4,
       logoOpacity: 0.08,
     },
   };
 }
 
 /**
- * Returns preset theme configurations
+ * Returns preset theme configurations (only fields that differ from defaults)
  */
 export function getPresetSettings(presetName: PresetName): Omit<PrintSettings, 'categories'> {
-  const presets: Record<PresetName, Omit<PrintSettings, 'categories'>> = {
+  const defaults = getDefaultPrintSettings();
+
+  // Presets only define fields that differ from defaults
+  const presetOverrides: Record<PresetName, DeepPartial<Omit<PrintSettings, 'categories'>>> = {
+    // Classique (dark theme) overrides colors and logo opacity
     classique: {
       colors: {
-        pageTitle: '#d9c551',
-        categoryTitle: '#d9c551',
-        prices: '#d9c551',
-        dottedLines: '#374151',
-        quantityText: '#9ca3af',
-        itemName: '#e5e7eb',
-        backgroundColor: '#030712',
-      },
-      typography: {
-        baseFontSize: 9,
-        titleSize: 1.8,
-        titleWeight: 700,
-        categorySize: 1.1,
-        categoryWeight: 700,
-        subcategorySize: 1.0,
-        itemSize: 0.75,
-        itemWeight: 500,
-        priceSize: 0.75,
-        priceWeight: 700,
-        lineHeight: 1.0,
-      },
-      spacing: {
-        titleMarginBottom: 1.5,
-        categorySpacing: 0.8,
-        subcategorySpacing: 0.5,
-        itemSpacing: 0.3,
-        tableRowSpacing: 0.15,
+        pageTitle: '#d9c551',       // Gold
+        categoryTitle: '#d9c551',   // Gold
+        subcategoryTitle: '#d1d5db', // Gray-300 (light theme for dark background)
+        prices: '#d9c551',          // Gold
+        dottedLines: '#374151',     // Gray-700
+        quantityText: '#9ca3af',    // Gray-400
+        itemName: '#e5e7eb',        // Gray-200 (light text for dark background)
+        backgroundColor: '#030712', // Very dark gray/black
       },
       layout: {
-        columns: 5,
-        logoOpacity: 0.08,
+        logoOpacity: 0.08, // Lower opacity for dark theme
       },
     },
-    clair: {
-      colors: {
-        pageTitle: '#1e40af',      // Blue-700
-        categoryTitle: '#1e40af',  // Blue-700
-        prices: '#059669',         // Green-600
-        dottedLines: '#d1d5db',    // Gray-300
-        quantityText: '#6b7280',   // Gray-500
-        itemName: '#111827',       // Gray-900 (dark text for light background)
-        backgroundColor: '#ffffff', // White background for light theme
-      },
-      typography: {
-        baseFontSize: 9,
-        titleSize: 1.8,
-        titleWeight: 700,
-        categorySize: 1.1,
-        categoryWeight: 700,
-        subcategorySize: 1.0,
-        itemSize: 0.75,
-        itemWeight: 500,
-        priceSize: 0.75,
-        priceWeight: 700,
-        lineHeight: 1.0,
-      },
-      spacing: {
-        titleMarginBottom: 1.5,
-        categorySpacing: 0.8,
-        subcategorySpacing: 0.5,
-        itemSpacing: 0.3,
-        tableRowSpacing: 0.15,
-      },
-      layout: {
-        columns: 5,
-        logoOpacity: 0.15, // Higher opacity for light theme
-      },
-    },
+
+    // Clair (light theme) uses all default values
+    clair: {},
   };
 
-  return presets[presetName];
+  // Merge preset overrides with defaults
+  return deepMerge(defaults, presetOverrides[presetName]);
 }
 
 /**
  * Get all available presets with their labels
+ * Note: The 'settings' field contains the full merged settings (defaults + overrides)
  */
 export function getAvailablePresets(): PresetTheme[] {
   return [
     {
       name: 'classique',
       label: 'Classique',
-      settings: getPresetSettings('classique'),
+      settings: getPresetSettings('classique'), // Returns fully merged settings
     },
     {
       name: 'clair',
       label: 'Clair',
-      settings: getPresetSettings('clair'),
+      settings: getPresetSettings('clair'), // Returns fully merged settings
     },
   ];
 }

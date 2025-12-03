@@ -28,21 +28,22 @@
   --print-table-row-spacing: 0.15rem;
   --print-line-height: 1.0;
 
-  /* Colors - Customizable */
-  --print-title-color: #d9c551;
-  --print-category-color: #d9c551;
-  --print-price-color: #d9c551;
-  --print-dotted-line-color: #374151;
-  --print-quantity-color: #9ca3af;
-  --print-item-name-color: #e5e7eb;
+  /* Colors - Customizable (Light theme defaults) */
+  --print-title-color: #1e40af;
+  --print-category-color: #1e40af;
+  --print-subcategory-color: #4b5563;
+  --print-price-color: #059669;
+  --print-dotted-line-color: #d1d5db;
+  --print-quantity-color: #6b7280;
+  --print-item-name-color: #111827;
 
   /* Background Logo */
-  --print-bg-logo-opacity: 0.08;
+  --print-bg-logo-opacity: 0.15;
   --print-bg-logo-size: 600px; /* Width of background logo */
 
   /* Background Colors */
-  --print-background-color: #030712; /* Main background */
-  --print-text-color: #e5e7eb; /* Main text color */
+  --print-background-color: #ffffff; /* Main background (light theme) */
+  --print-text-color: #111827; /* Main text color (dark for light background) */
 }
 
 /* Page Setup for A3 Landscape */
@@ -119,6 +120,11 @@
   /* Reset */
   * {
     box-sizing: border-box;
+  }
+
+  /* Set base font size on root element for rem calculations */
+  html {
+    font-size: var(--print-base-font-size) !important;
   }
 
   body {
@@ -246,7 +252,7 @@
   h3 {
     font-size: var(--print-subcategory-size) !important;
     font-weight: 600 !important;
-    color: #d1d5db !important;
+    color: var(--print-subcategory-color) !important;
     margin-bottom: var(--print-subcategory-spacing) !important;
     margin-top: var(--print-category-spacing) !important;
   }

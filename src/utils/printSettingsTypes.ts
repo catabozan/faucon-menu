@@ -5,6 +5,7 @@
 export interface PrintColors {
   pageTitle: string;
   categoryTitle: string;
+  subcategoryTitle: string;
   prices: string;
   dottedLines: string;
   quantityText: string;
@@ -54,8 +55,13 @@ export interface PrintSettings {
 
 export type PresetName = 'classique' | 'clair';
 
+// Deep partial type for nested objects
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
 export interface PresetTheme {
   name: PresetName;
   label: string;
-  settings: Omit<PrintSettings, 'categories'>; // Presets don't include category settings
+  settings: DeepPartial<Omit<PrintSettings, 'categories'>>; // Presets only override specific fields
 }

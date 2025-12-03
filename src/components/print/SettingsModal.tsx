@@ -140,6 +140,11 @@ export function SettingsModal({
                 onChange={(value) => updateSettings({ colors: { ...settings.colors, categoryTitle: value } })}
               />
               <ColorPicker
+                label="Titres des sous-catégories"
+                value={settings.colors.subcategoryTitle}
+                onChange={(value) => updateSettings({ colors: { ...settings.colors, subcategoryTitle: value } })}
+              />
+              <ColorPicker
                 label="Prix"
                 value={settings.colors.prices}
                 onChange={(value) => updateSettings({ colors: { ...settings.colors, prices: value } })}
