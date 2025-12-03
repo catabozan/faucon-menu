@@ -21,7 +21,7 @@ export function MenuSubcategory({
   return (
     <div id={`subcategory-${categoryIndex}-${subcategoryIndex}`} class="mb-8">
       {subcategory.name && (
-        <h3 class="text-xl font-semibold mb-4 text-gray-300">{subcategory.name}</h3>
+        <h3 class="text-lg font-semibold mb-4 text-accent">{subcategory.name}</h3>
       )}
       {subcategory.items.map((itemGroup, index) => (
         <MenuItemGroup

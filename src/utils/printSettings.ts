@@ -37,7 +37,7 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
     colors: {
       pageTitle: '#173185',
       categoryTitle: '#173185',
-      subcategoryTitle: '#0E1E4C',
+      subcategoryTitle: '#173185',
       prices: '#173185',
       dottedLines: '#AFBCD0',
       quantityText: '#465169',
@@ -50,7 +50,7 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
       titleWeight: 700,
       categorySize: 1.5,
       categoryWeight: 700,
-      subcategorySize: 1.0,
+      subcategorySize: 0.9,
       itemSize: 0.75,
       itemWeight: 600,
       priceSize: 0.75,
