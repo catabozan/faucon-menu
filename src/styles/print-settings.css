@@ -5,8 +5,8 @@
 /* Settings Button (Floating Action Button) */
 .settings-button {
   position: fixed;
-  bottom: 5rem;
-  right: 2rem;
+  bottom: 2rem;
+  left: 2rem;
   z-index: 50;
   display: flex;
   align-items: center;
@@ -156,7 +156,7 @@
   padding: 0 1.5rem;
   background-color: #1f2937;
   border-bottom: 1px solid #374151;
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .settings-tab {

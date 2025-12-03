@@ -23,7 +23,7 @@ export function MenuCategory({
       id={`category-${categoryIndex}`}
       class={`mb-12 ${hasColumnBreak ? 'has-column-break' : ''}`}
     >
-      <h2 class="text-4xl font-bold mb-6 text-accent display-font">{category.name}</h2>
+      <h2 class="text-3xl font-bold mb-6 text-accent display-font">{category.name}</h2>
       {category.subcategories.map((subcategory, subIndex) => (
         <MenuSubcategory
           key={subIndex}

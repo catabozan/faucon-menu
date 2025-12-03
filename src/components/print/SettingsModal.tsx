@@ -349,6 +349,15 @@ export function SettingsModal({
                 step={0.05}
                 unit=""
               />
+              <NumberInput
+                label="Marges de page"
+                value={settings.layout.pagePadding}
+                onChange={(value) => updateSettings({ layout: { ...settings.layout, pagePadding: value } })}
+                min={0}
+                max={20}
+                step={0.5}
+                unit="mm"
+              />
             </div>
           </div>
 

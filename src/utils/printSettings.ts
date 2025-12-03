@@ -48,7 +48,7 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
       baseFontSize: 13.5,
       titleSize: 2.7,
       titleWeight: 700,
-      categorySize: 1.7,
+      categorySize: 1.5,
       categoryWeight: 700,
       subcategorySize: 1.0,
       itemSize: 0.75,
@@ -67,6 +67,7 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
     layout: {
       columns: 4,
       logoOpacity: 0.08,
+      pagePadding: 10,
     },
   };
 }
@@ -261,6 +262,9 @@ export function validatePrintSettings(data: any): PrintSettings {
     }
     if (typeof data.layout.logoOpacity === 'number') {
       validated.layout.logoOpacity = Math.max(0, Math.min(1, data.layout.logoOpacity));
+    }
+    if (typeof data.layout.pagePadding === 'number') {
+      validated.layout.pagePadding = Math.max(0, Math.min(20, data.layout.pagePadding));
     }
   }
 

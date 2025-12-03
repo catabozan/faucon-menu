@@ -19,6 +19,7 @@ html {
 
 .display-font {
   font-family: 'Alexa Std', sans-serif;
+  letter-spacing: 0.1rem;
 }
 
 /* Custom dark theme colors are handled by Tailwind classes in the HTML */

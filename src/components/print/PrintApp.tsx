@@ -87,6 +87,7 @@ export function PrintApp({
         --print-table-row-spacing: ${settings.spacing.tableRowSpacing}rem;
         --print-columns: ${settings.layout.columns};
         --print-bg-logo-opacity: ${settings.layout.logoOpacity};
+        --print-page-padding: ${settings.layout.pagePadding}mm;
       }
     `;
   }, [settings]);

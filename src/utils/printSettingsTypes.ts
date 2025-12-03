@@ -38,6 +38,7 @@ export interface PrintSpacing {
 export interface PrintLayout {
   columns: number;            // 1-8
   logoOpacity: number;        // 0-1 (0 = hidden, 1 = fully visible)
+  pagePadding: number;        // in mm (page margins)
 }
 
 export interface CategorySettings {
