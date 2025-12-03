@@ -239,6 +239,12 @@
     page-break-after: avoid;
   }
 
+  /* Force column break after specific sections */
+  section.has-column-break {
+    break-after: column !important;
+    page-break-after: always !important;
+  }
+
   /* Category Styles - force settings */
   section h2 {
     font-size: var(--print-category-size) !important;
@@ -298,8 +304,8 @@
 
   /* Category spacing - between categories */
   section {
-    margin-top: var(--print-category-spacing) !important;
-    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--print-category-spacing) !important;
   }
 
   .mb-12 {
@@ -380,11 +386,6 @@
 
 /* Adjustments for better column flow */
 @media print {
-  /* First category starts at top */
-  section:first-of-type {
-    margin-top: 0;
-  }
-
   /* Prevent orphaned headers */
   section {
     orphans: 3;

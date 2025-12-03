@@ -6,9 +6,10 @@ interface MenuContentProps {
   currencySymbol: string;
   currencyPosition: 'before' | 'after';
   showDots: boolean;
+  categoryBreaks?: Set<string>;
 }
 
-export function MenuContent({ menuData, currencySymbol, currencyPosition, showDots }: MenuContentProps) {
+export function MenuContent({ menuData, currencySymbol, currencyPosition, showDots, categoryBreaks }: MenuContentProps) {
   return (
     <main id="menu-content" class="px-4 py-6 max-w-4xl mx-auto">
       {menuData.map((category, index) => (
@@ -19,6 +20,7 @@ export function MenuContent({ menuData, currencySymbol, currencyPosition, showDo
           currencySymbol={currencySymbol}
           currencyPosition={currencyPosition}
           showDots={showDots}
+          hasColumnBreak={categoryBreaks?.has(category.name) ?? false}
         />
       ))}
     </main>

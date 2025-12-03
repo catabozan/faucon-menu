@@ -22,7 +22,7 @@ export const BigCategoryMenu = forwardRef<HTMLDivElement, BigCategoryMenuProps>(
     return (
       <div ref={ref} class="bg-gray-950 border-b border-gray-800">
         <div class="px-4 py-6">
-          <h2 class="text-xl text-center font-bold mb-6">Catégories</h2>
+          {/* <h2 class="text-xl text-center font-bold mb-6">Catégories</h2> */}
           <div class="grid grid-cols-1 gap-3 max-w-4xl mx-auto">
             {menuData.map((category, index) => (
               <button

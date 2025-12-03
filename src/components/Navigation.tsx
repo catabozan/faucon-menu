@@ -118,7 +118,7 @@ export function Navigation({
     >
       <div class="px-6 py-1">
         <div className="flex flex-row justify-between items-center">
-          <h1 class="text-2xl font-bold text-left pl-2">{headerTitle}</h1>
+          <h1 class="text-4xl font-bold text-left pl-2 display-font text-accent">{headerTitle}</h1>
           <img src="./logo.png" alt="logo" class="w-20" />
         </div>
 

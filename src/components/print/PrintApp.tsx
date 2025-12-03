@@ -111,6 +111,29 @@ export function PrintApp({
     });
   }, [menuData, settings.categories]);
 
+  // Determine which categories should have column breaks after them
+  const categoryBreaks = useMemo(() => {
+    const { order } = settings.categories;
+    const breaks = new Set<string>();
+
+    for (let i = 0; i < order.length - 1; i++) {
+      const current = order[i];
+      const next = order[i + 1];
+
+      // Skip if current is a break marker
+      if (current.startsWith('__BREAK__')) {
+        continue;
+      }
+
+      // If next item is a break marker, add current category to breaks set
+      if (next.startsWith('__BREAK__')) {
+        breaks.add(current);
+      }
+    }
+
+    return breaks;
+  }, [settings.categories.order]);
+
   const handleSettingsChange = (newSettings: PrintSettings) => {
     setSettings(newSettings);
     savePrintSettings(newSettings);
@@ -148,7 +171,7 @@ export function PrintApp({
       <div class="print-container">
         {/* Title Header */}
         <div class="print-header">
-          <h1 class="print-title">{import.meta.env.HEADER_TITLE}</h1>
+          <h1 class="print-title display-font">{import.meta.env.HEADER_TITLE}</h1>
         </div>
 
         <div class="print-content">
@@ -157,6 +180,7 @@ export function PrintApp({
             currencySymbol={currencySymbol}
             currencyPosition={currencyPosition}
             showDots={showDots}
+            categoryBreaks={categoryBreaks}
           />
         </div>
       </div>

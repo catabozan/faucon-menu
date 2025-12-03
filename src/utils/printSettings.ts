@@ -48,7 +48,7 @@ export function getDefaultPrintSettings(): Omit<PrintSettings, 'categories'> {
       baseFontSize: 13.5,
       titleSize: 2.7,
       titleWeight: 700,
-      categorySize: 1.2,
+      categorySize: 1.7,
       categoryWeight: 700,
       subcategorySize: 1.0,
       itemSize: 0.75,

@@ -64,10 +64,24 @@ export function CategoryManager({
 
   const handleDeselectAll = () => {
     const allHidden = Object.fromEntries(
-      order.map(name => [name, false])
+      order.filter(name => !name.startsWith('__BREAK__')).map(name => [name, false])
     );
     onVisibilityChange(allHidden);
   };
+
+  const handleAddColumnBreak = (afterIndex: number) => {
+    const newOrder = [...order];
+    const breakId = `__BREAK__${Date.now()}`;
+    newOrder.splice(afterIndex + 1, 0, breakId);
+    onOrderChange(newOrder);
+  };
+
+  const handleRemoveColumnBreak = (index: number) => {
+    const newOrder = order.filter((_, i) => i !== index);
+    onOrderChange(newOrder);
+  };
+
+  const isColumnBreak = (name: string) => name.startsWith('__BREAK__');
 
   return (
     <div class="category-manager">
@@ -90,29 +104,66 @@ export function CategoryManager({
 
       <div class="category-list">
         {order.map((categoryName, index) => (
-          <div
-            key={categoryName}
-            draggable
-            onDragStart={(e) => handleDragStart(e, index)}
-            onDragOver={(e) => handleDragOver(e, index)}
-            onDragEnd={handleDragEnd}
-            onDragLeave={handleDragLeave}
-            class={`category-item ${draggedIndex === index ? 'dragging' : ''} ${dragOverIndex === index ? 'drag-over' : ''}`}
-          >
-            <span class="drag-handle" title="Glisser pour réorganiser">
-              ⋮⋮
-            </span>
-            <input
-              type="checkbox"
-              checked={visibility[categoryName] !== false}
-              onChange={(e) => handleVisibilityToggle(categoryName, e.currentTarget.checked)}
-              class="category-checkbox"
-              id={`category-${categoryName}`}
-            />
-            <label htmlFor={`category-${categoryName}`} class="category-name">
-              {categoryName}
-            </label>
-          </div>
+          <>
+            {isColumnBreak(categoryName) ? (
+              <div
+                key={categoryName}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDragEnd={handleDragEnd}
+                onDragLeave={handleDragLeave}
+                class={`category-item column-break-item ${draggedIndex === index ? 'dragging' : ''} ${dragOverIndex === index ? 'drag-over' : ''}`}
+              >
+                <span class="drag-handle" title="Glisser pour réorganiser">
+                  ⋮⋮
+                </span>
+                <span class="column-break-label">
+                  ─── Saut de colonne ───
+                </span>
+                <button
+                  type="button"
+                  class="remove-break-btn"
+                  onClick={() => handleRemoveColumnBreak(index)}
+                  title="Supprimer le saut de colonne"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <div
+                key={categoryName}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDragEnd={handleDragEnd}
+                onDragLeave={handleDragLeave}
+                class={`category-item ${draggedIndex === index ? 'dragging' : ''} ${dragOverIndex === index ? 'drag-over' : ''}`}
+              >
+                <span class="drag-handle" title="Glisser pour réorganiser">
+                  ⋮⋮
+                </span>
+                <input
+                  type="checkbox"
+                  checked={visibility[categoryName] !== false}
+                  onChange={(e) => handleVisibilityToggle(categoryName, e.currentTarget.checked)}
+                  class="category-checkbox"
+                  id={`category-${categoryName}`}
+                />
+                <label htmlFor={`category-${categoryName}`} class="category-name">
+                  {categoryName}
+                </label>
+                <button
+                  type="button"
+                  class="add-break-btn"
+                  onClick={() => handleAddColumnBreak(index)}
+                  title="Ajouter un saut de colonne après"
+                >
+                  +
+                </button>
+              </div>
+            )}
+          </>
         ))}
       </div>
     </div>

@@ -17,6 +17,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.display-font {
+  font-family: 'Alexa Std', sans-serif;
+}
+
 /* Custom dark theme colors are handled by Tailwind classes in the HTML */
 
 @theme {

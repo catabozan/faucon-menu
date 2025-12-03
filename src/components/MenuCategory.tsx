@@ -7,6 +7,7 @@ interface MenuCategoryProps {
   currencySymbol: string;
   currencyPosition: 'before' | 'after';
   showDots: boolean;
+  hasColumnBreak?: boolean;
 }
 
 export function MenuCategory({
@@ -14,11 +15,15 @@ export function MenuCategory({
   categoryIndex,
   currencySymbol,
   currencyPosition,
-  showDots
+  showDots,
+  hasColumnBreak
 }: MenuCategoryProps) {
   return (
-    <section id={`category-${categoryIndex}`} class="mb-12">
-      <h2 class="text-2xl font-bold mb-6 text-accent">{category.name}</h2>
+    <section
+      id={`category-${categoryIndex}`}
+      class={`mb-12 ${hasColumnBreak ? 'has-column-break' : ''}`}
+    >
+      <h2 class="text-4xl font-bold mb-6 text-accent display-font">{category.name}</h2>
       {category.subcategories.map((subcategory, subIndex) => (
         <MenuSubcategory
           key={subIndex}
