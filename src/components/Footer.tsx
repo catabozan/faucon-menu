@@ -49,7 +49,7 @@ export function Footer() {
               Lun-Ven: 16h-02h<br />
               Sam-Dim: 17h-02h <br />
               <br />
-              <span>Si vous souhaitez louer le bar pour un événement, nous pouvons rester ouverts jusqu'à 04h00.</span> <br />
+              <span>Si vous souhaitez reserver le bar pour un événement, nous pouvons rester ouverts jusqu'à 04h00.</span> <br />
               <br />
               <span class="italic">Après 02h00 les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus</span>
             </div>
