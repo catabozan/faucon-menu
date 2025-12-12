@@ -2,7 +2,13 @@ export function Footer() {
   return (
     <footer class="bg-gray-950 border-t border-gray-800 mt-12 pb-16">
       <div class="max-w-4xl mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+          <div>
+            <h3 class="text-base font-semibold mb-3 text-gray-100">TVA</h3>
+            <div class="not-italic text-sm text-gray-400 leading-relaxed">
+              Tous les prix incluent une TVA de 8,1%.
+            </div>
+          </div>
           {/* Address Section */}
           <div>
             <h3 class="text-base font-semibold mb-3 text-gray-100">Adresse</h3>
@@ -41,7 +47,11 @@ export function Footer() {
             <h3 class="text-base font-semibold mb-3 text-gray-100">Horaires</h3>
             <div class="text-sm text-gray-400 leading-relaxed">
               Lun-Ven: 16h-02h<br />
-              Sam-Dim: 17h-02h
+              Sam-Dim: 17h-02h <br />
+              <br />
+              <span>Si vous souhaitez louer le bar pour un événement, nous pouvons rester ouverts jusqu'à 04h00.</span> <br />
+              <br />
+              <span class="italic">Après 02h00 les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus</span>
             </div>
           </div>
         </div>
