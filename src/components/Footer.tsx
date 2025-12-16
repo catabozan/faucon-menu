@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer class="bg-gray-950 border-t border-gray-800 mt-12 pb-16">
       <div class="max-w-4xl mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <h3 class="text-base font-semibold mb-3 text-gray-100">TVA</h3>
             <div class="not-italic text-sm text-gray-400 leading-relaxed">
@@ -17,27 +17,26 @@ export function Footer() {
               2000 Neuchâtel<br />
               Suisse
             </address>
-          </div>
-
-          {/* Contact Section */}
-          <div>
-            <h3 class="text-base font-semibold mb-3 text-gray-100">Contact</h3>
-            <div class="text-sm text-gray-400 space-y-2">
-              <div>
-                <a
-                  href="tel:+41328462565"
-                  class="hover:text-gray-100 transition-colors"
-                >
-                  +41 32 846 25 65
-                </a>
-              </div>
-              <div>
-                <a
-                  href="mailto:espace.faucon@gmail.com"
-                  class="hover:text-gray-100 transition-colors"
-                >
-                  espace.faucon@gmail.com
-                </a>
+            {/* Contact Section */}
+            <div class="mt-6">
+              <h3 class="text-base font-semibold mb-3 text-gray-100">Contact</h3>
+              <div class="text-sm text-gray-400 space-y-2">
+                <div>
+                  <a
+                    href="tel:+41328462565"
+                    class="hover:text-gray-100 transition-colors"
+                  >
+                    +41 32 846 25 65
+                  </a>
+                </div>
+                <div>
+                  <a
+                    href="mailto:espace.faucon@gmail.com"
+                    class="hover:text-gray-100 transition-colors"
+                  >
+                    espace.faucon@gmail.com
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -49,9 +48,9 @@ export function Footer() {
               Lun-Ven: 16h-02h<br />
               Sam-Dim: 17h-02h <br />
               <br />
-              <span>Si vous souhaitez reserver le bar pour un événement, nous pouvons rester ouverts jusqu'à 04h00.</span> <br />
+              <span>Envie de faire la fête plus tard ? Prévenez-nous, le bar peut rester ouvert jusqu'à 04h00 !</span> <br />
               <br />
-              <span class="italic">Après 02h00 les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus</span>
+              <span class="italic">*Après 02h00 les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus.</span>
             </div>
           </div>
         </div>

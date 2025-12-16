@@ -185,14 +185,14 @@
 
   /* Footnote at bottom of each page */
   .print-container::after {
-    content: 'Tous les prix incluent une TVA de 8,1% \A Après 02h00: les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus';
+    content: 'Envie de faire la fête plus tard ? Prévenez-nous, le bar peut rester ouvert jusqu\'à 04h00 ! \A *Après 02h00: les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus. \A\A Tous les prix incluent une TVA de 8,1%';
     white-space: pre;
     position: fixed;
     bottom: calc(var(--print-page-padding) / 2);
-    left: 0;
+    left: calc(var(--print-page-padding) / 2);
     right: 0;
-    text-align: center;
-    font-size: 7pt;
+    text-align: left;
+    font-size: 8pt;
     color: var(--print-item-name-color);
     z-index: 10;
     pointer-events: none;
