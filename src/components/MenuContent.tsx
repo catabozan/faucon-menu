@@ -11,7 +11,7 @@ interface MenuContentProps {
 
 export function MenuContent({ menuData, currencySymbol, currencyPosition, showDots, categoryBreaks }: MenuContentProps) {
   return (
-    <main id="menu-content" class="px-4 py-6 max-w-4xl mx-auto">
+    <main id="menu-content" class="px-4 py-6 max-w-4xl mx-auto pt-16">
       {menuData.map((category, index) => (
         <MenuCategory
           key={index}
