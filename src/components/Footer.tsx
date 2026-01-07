@@ -43,11 +43,8 @@ export function Footer() {
 
           {/* Hours or additional info */}
           <div>
-            <h3 class="text-base font-semibold mb-3 text-gray-100">Horaires</h3>
+            <h3 class="text-base font-semibold mb-3 text-gray-100">After hours : on continue !</h3>
             <div class="text-sm text-gray-400 leading-relaxed">
-              Lun-Ven: 16h-02h<br />
-              Sam-Dim: 17h-02h <br />
-              <br />
               <span>Envie de faire la fête plus tard ? Prévenez-nous, le bar peut rester ouvert jusqu'à 04h00 !</span> <br />
               <br />
               <span class="italic">*Après 02h00 les verres coûtent 2.- CHF de plus, et les bouteilles 20.- CHF de plus.</span>
